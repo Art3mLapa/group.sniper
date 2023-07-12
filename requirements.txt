@@ -1,4 +1,3 @@
 requests
-threading
 asyncio
 discord.py
