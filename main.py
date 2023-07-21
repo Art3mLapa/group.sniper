@@ -12,24 +12,24 @@ bot = commands.Bot(command_prefix="~", intents=intents)
 
 running = False
 text_channel = None
-proxy_list = []
+#proxy_list = []
 
-with open('proxy_list.txt', 'r') as file:
-    proxy_list = file.read().splitlines()
+#with open('proxy_list.txt', 'r') as file:
+#    proxy_list = file.read().splitlines()
 
-def get_random_proxy():
-    return random.choice(proxy_list)
+#def get_random_proxy():
+#    return random.choice(proxy_list)
 
 def groupfinder():
     while running:
             id = random.randint(1000000, 9999999)
-            proxy = get_random_proxy()
-            
-            proxy_dict = {
-                'https': proxy
-            }
-                
-            re = requests.get(f"https://groups.roblox.com/v1/groups/{id}", proxies=proxy_dict)
+#            proxy = get_random_proxy()
+#            
+#            proxy_dict = {
+#                'https': proxy
+#            }
+#                
+            re = requests.get(f"https://groups.roblox.com/v1/groups/{id}") #proxies=proxy_dict
             if 'isLocked' not in re.text and 'owner' in re.text:
                 if re.json()['publicEntryAllowed'] and re.json()['owner'] == None:
                     embed = discord.Embed(
