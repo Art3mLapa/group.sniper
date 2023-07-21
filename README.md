@@ -11,4 +11,4 @@ If you could improve the bot for the better - you can share your repositories on
 # Updates
 
 21.07.23
-Bug and code fixes, added HTTPS proxy system
+Bug and code fixes, added HTTPS proxy system (DISABLED IN THE CODE)
