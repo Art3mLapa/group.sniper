@@ -7,3 +7,8 @@ With strong luck, you can get a group even with a fund that can contain robux!
 the bot works like this - when you enter the ~start-generate command, it starts a special cycle - generating a random id, checking it to see if the group has an owner, or if it is abandoned. If it is abandoned and not closed, it sends the results to the chat.
 It is quite slow due to the fact that it does not use proxies. (I honestly tried to add them, but the proxies constantly could not connect to the roblox API tunnel.)
 If you could improve the bot for the better - you can share your repositories on my discord server, or in the forum of my repository, thanks :3
+
+# Updates
+
+21.07.23
+Bug and code fixes, added HTTPS proxy system
