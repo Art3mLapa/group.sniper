@@ -12,30 +12,37 @@ bot = commands.Bot(command_prefix="~", intents=intents)
 
 running = False
 text_channel = None
+proxy_list = []
+
+with open('proxy_list.txt', 'r') as file:
+    proxy_list = file.read().splitlines()
+
+def get_random_proxy():
+    return random.choice(proxy_list)
 
 def groupfinder():
     while running:
-        if proxies:
-            proxy = random.choice(proxies)
             id = random.randint(1000000, 9999999)
-            start_time = time.time()
-            r = requests.get(f"https://www.roblox.com/groups/group.aspx?gid={id}")
-            end_time = time.time()
-            if 'owned' not in r.text:
-                re = requests.get(f"https://groups.roblox.com/v1/groups/{id}")
-                if 'isLocked' not in re.text and 'owner' in re.text:
-                    if re.json()['publicEntryAllowed'] and re.json()['owner'] == None:
-                        embed = discord.Embed(title="Group Hit",
-                                              description=f"https://www.roblox.com/groups/group.aspx?gid={id}",
-                                              color=discord.Color.green())
-                        bot.loop.create_task(send_message(embed))  # Send message to text channel
-                        print(f"[+] Hit: {id}")
-                    else:
-                        print(f"[-] No Entry Allowed: {id}")
+            proxy = get_random_proxy()
+            
+            proxy_dict = {
+                'https': proxy
+            }
+                
+            re = requests.get(f"https://groups.roblox.com/v1/groups/{id}", proxies=proxy_dict)
+            if 'isLocked' not in re.text and 'owner' in re.text:
+                if re.json()['publicEntryAllowed'] and re.json()['owner'] == None:
+                    embed = discord.Embed(
+                       title="Group Hit coemzzz",
+                       description=f"https://www.roblox.com/groups/group.aspx?gid={id}",
+                       color=discord.Color.green()
+                   )
+                    bot.loop.create_task(send_message(embed))
+                    print(f"[+] Hit: {id}")
                 else:
-                    print(f"[-] Group Locked: {id}")
+                    print(f"[-] No Entry Allowed: {id}")
             else:
-                print(f"[-] Group Already Owned: {id}")
+                print(f"[-] Group Locked/Already Owned: {id}")
 
 async def send_message(embed):
     await text_channel.send(embed=embed)
@@ -69,13 +76,9 @@ async def stop_generation(ctx):
         await ctx.send("Group generation is not currently running.")
 
 @bot.command()
-async def settings(ctx):
-    global running
-    global proxy
-    global proxy_speed
+async def status(ctx):
     status = "Active" if running else "Inactive"
-    embed = discord.Embed(title="Bot Settings", color=discord.Color.blue())
+    embed = discord.Embed(title="group.sniper. Settings", color=discord.Color.blue())
     embed.add_field(name="Running", value=status, inline=False)
-    await ctx.send(embed=embed)
 
 bot.run("token")
